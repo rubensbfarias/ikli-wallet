@@ -1,0 +1,27 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: ikli_db
+  pool: 5
+  username: postgres
+  password: root
+  host: localhost
+  port: 5432
+
+# test:
+#   adapter: mysql2
+#   encoding: utf8
+#   database: your_app_name_test
+#   pool: 5
+#   username: root
+#   password: your_mysql_password
+#   socket: /tmp/mysql.sock
+
+# production:
+#   adapter: mysql2
+#   encoding: utf8
+#   database: your_app_name_production
+#   pool: 5
+#   username: your_production_username
+#   password: your_production_password
+#   socket: /tmp/mysql.sock

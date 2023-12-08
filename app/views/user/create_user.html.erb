@@ -1,0 +1,60 @@
+<section class="vh-100" style="background-color: #2779e2;">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-xl-9">
+
+        <h1 class="text-white mb-4">Criar Usuário</h1>
+     
+        <div class="card" style="border-radius: 15px;">
+          
+            <form method="POST">
+                <div class="card-body">
+                    <% if session.has_key?(:success) %>
+                        <h1>Usuário ID: <%= session[:success] %></h1>
+                    <% end %>
+                    <div class="row align-items-center pt-4 pb-3">
+                        <div class="col-md-3 ps-5">
+                            <h6 class="mb-0">Nome Completo</h6>
+                        </div>
+                        <div class="col-md-9 pe-5">
+                            <input type="text" class="form-control form-control-lg" placeholder="Digite seu nome" name="name"/>
+                        </div>
+                    </div>
+
+                    <hr class="mx-n3">
+
+                    <div class="row align-items-center py-3">
+                        <div class="col-md-3 ps-5">
+                            <h6 class="mb-0">Email</h6>
+                        </div>
+                        <div class="col-md-9 pe-5">
+                            <input type="email" class="form-control form-control-lg" placeholder="example@example.com" name="email"/>
+                        </div>
+                    </div>
+
+                    <hr class="mx-n3">
+
+                    <div class="row align-items-center py-3">
+                        <div class="col-md-3 ps-5">
+                            <h6 class="mb-0">Senha</h6>
+                        </div>
+                        <div class="col-md-9 pe-5">
+                            <input type="password" class="form-control form-control-lg" placeholder="Digite sua senha" name="password"/>
+                        </div>
+                    </div>
+
+                    <hr class="mx-n3">
+
+                    <div class="px-5 py-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Adicionar Usuário</button>
+                    </div>
+
+                </div>
+            </form>
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
