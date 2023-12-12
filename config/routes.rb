@@ -9,4 +9,7 @@ Rails.application.routes.draw do
   get '/users', to: "user#index"
   get '/user', to: "user#create_user_view"
   post '/user', to: "user#create_user"
+  get '/user/:id', to: "user#destroy_user", as: 'destroy_user'
+  get '/user/edit/:id', to: "user#edit_user", as: 'edit_user'
+  post '/user/edit/:id', to: "user#update_user", as: 'update_user'
 end

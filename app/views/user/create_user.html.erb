@@ -3,21 +3,21 @@
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-xl-9">
 
-        <h1 class="text-white mb-4">Criar Usuário</h1>
+        <h1 class="text-white mb-4"><%= defined?(@user) ? 'Editar' : 'Criar' %> Usuário</h1>
      
         <div class="card" style="border-radius: 15px;">
           
-            <form method="POST">
+            <form method="POST" action="<%= defined?(@user) ? "/user/edit/#{@user.id}" : '/user' %>">
                 <div class="card-body">
                     <% if session.has_key?(:success) %>
-                        <h1>Usuário ID: <%= session[:success] %></h1>
+                        <h4 style="color: #589e49"><%= flash[:success] %></h4>
                     <% end %>
                     <div class="row align-items-center pt-4 pb-3">
                         <div class="col-md-3 ps-5">
                             <h6 class="mb-0">Nome Completo</h6>
                         </div>
                         <div class="col-md-9 pe-5">
-                            <input type="text" class="form-control form-control-lg" placeholder="Digite seu nome" name="name"/>
+                            <input type="text" value="<%= defined?(@user) ? @user.name : ""%>" class="form-control form-control-lg" placeholder="Digite seu nome" name="name"/>
                         </div>
                     </div>
 
@@ -28,7 +28,7 @@
                             <h6 class="mb-0">Email</h6>
                         </div>
                         <div class="col-md-9 pe-5">
-                            <input type="email" class="form-control form-control-lg" placeholder="example@example.com" name="email"/>
+                            <input type="email" value="<%= defined?(@user) ? @user.email : "" %>" class="form-control form-control-lg" placeholder="example@example.com" name="email"/>
                         </div>
                     </div>
 
@@ -46,7 +46,7 @@
                     <hr class="mx-n3">
 
                     <div class="px-5 py-4">
-                        <button type="submit" class="btn btn-primary btn-lg">Adicionar Usuário</button>
+                        <button type="submit" class="btn btn-primary"><%= defined?(@user) ? 'Editar' : 'Criar' %> Usuário</button>
                     </div>
 
                 </div>

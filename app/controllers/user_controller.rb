@@ -20,14 +20,60 @@ class UserController < ApplicationController
             )
 
             if user.save
-                session[:success] = "Usuário #{name} criado com sucesso!"
+               flash[:success] = "Usuário #{name} criado com sucesso!"
             end
         else
-            session[:success] = "Usuário com o email #{email} já existe"
+           flash[:success] = "Usuário com o email #{email} já existe"
         end
+
+        redirect_to '/users'
     end
 
     def create_user_view
         render 'create_user'
     end
+
+    def destroy_user
+        id = params[:id]
+
+        user = User.find(id)
+
+        if user
+            user.destroy
+            flash[:success_delete] = "Usuário excluído com sucesso!"
+        end
+
+        redirect_to '/users'
+    end
+
+    def edit_user
+        id = params[:id]
+        @user = User.find(id)
+
+        render "create_user"
+    end
+
+    def update_user
+        id = params[:id]
+        user = User.find(id)
+      
+        if user
+          name = params[:name].presence || user.name
+          email = params[:email].presence || user.email
+          password = params[:password].presence || user.password
+      
+          date = Date.today
+          updated_at = date.strftime('%Y-%m-%d')
+      
+          user.update(
+            name: name,
+            email: email,
+            password: password,
+            updated_at: updated_at
+          )
+        end
+
+        redirect_to '/users'
+    end
+      
 end
