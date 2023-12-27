@@ -31,14 +31,14 @@
                     <div class="text-center">
                         <img class="profile-user-img img-fluid img-circle" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="User profile picture" width="222">
                     </div>
-                    <h3 class="profile-username text-center">Rubens Farias</h3>
+                    <h3 class="profile-username text-center"><%= @user.name %></h3>
                     <p class="text-muted text-center">Software Engineer</p>
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
-                            <b>E-mail</b> <a class="float-right">1,322</a>
+                            <b>E-mail</b> <span class="float-right"><%= @user.email %></span>
                         </li>
                         <li class="list-group-item">
-                            <b>Criado em</b> <a class="float-right">543</a>
+                            <b>Criado em</b> <span class="float-right"><%= @user.created_at.strftime("%d/%m/%Y") %></span>
                         </li>
                     </ul>
                     <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
@@ -64,11 +64,11 @@
                             </div>
                             <div class="col-4 bg-light shadow-card text-center d-flex align-items-center justify-content-center flex-column">
                                 <span class="text-center text-muted font-card-wallet ">Saldo</span>
-                                <span class="font-bold font-wallet-balance">R$ 5.325,00</span>
+                                <span class="font-bold font-wallet-balance"><%= @balance %></span>
                             </div>
                              <div class="col-4 bg-light shadow-card text-center ms-4 d-flex align-items-center justify-content-center flex-column">
-                                <span class="text-center text-muted font-card-wallet ">Transações do Mês</span>
-                                <span class="font-bold font-wallet-balance">R$ 5.325,00</span>
+                                <span class="text-center text-muted font-card-wallet ">Gastos do Mês</span>
+                                <span class="font-bold font-wallet-balance"><%= @amount %></span>
                             </div>
                         </div>
 
@@ -91,11 +91,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>R$ 210,00</td>
-                                            <td>Debíto</td>
-                                            <td>20/12/2034</td>
-                                        </tr>
+                                        <% @transactions.each do |transaction| %>
+                                            <tr>
+                                                <td><%= number_to_currency(transaction.amount, unit: "R$", separator: ",", delimiter: ".", format: "%u %n") %></td>
+                                                <td><%= transaction.type_transaction %></td>
+                                                <td><%= transaction.date.strftime("%d/%m/%Y") %></td>
+                                            </tr>
+                                        <% end %>
                                     </tbody>
                                 </table>
                             </div>
@@ -113,17 +115,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="POST" action="<%= "/user/wallet/transaction/#{@user.id}"%>" id="form-credit">
+                <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
                      <div class="mb-3">
                         <label for="valor-credito" class="form-label">Valor</label>
-                        <input type="text" oninput="formatarValorMonetario(this) class="form-control" id="valor-credito">
+                        <input type="text" oninput="mascaraMoeda(event)" name="valor_creditar" class="form-control" id="valor-credito">
+                        <input type="hidden" name="type" value="credit">
                     </div>
-                
-               
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-primary">Salvar</button>
+                <button type="submit" class="btn btn-primary">Creditar</button>
             </div>
             </form>
             </div>
@@ -132,35 +134,48 @@
         <div class="modal fade" id="debit-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Debitar</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-primary">Salvar</button>
-            </div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Debitar</h5>
+                    
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="<%= "/user/wallet/transaction/#{@user.id}"%>">
+                        <div class="mb-3">
+                            <label for="valor-credito" class="form-label">Valor</label>
+                            <input type="text" oninput="mascaraMoeda(event)" name="valor_debitar" class="form-control" id="valor-debito">
+                            <input type="hidden" name="type" value="debito">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Debitar</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-function formatarValorMonetario(input) {
-    // Remove caracteres não numéricos
-    let valor = input.value.replace(/\D/g, '');
+const mascaraMoeda = (event) => {
+  const onlyDigits = event.target.value
+    .split("")
+    .filter(s => /\d/.test(s))
+    .join("")
+    .padStart(3, "0")
+  const digitsFloat = onlyDigits.slice(0, -2) + "." + onlyDigits.slice(-2)
+  event.target.value = maskCurrency(digitsFloat)
+}
 
-    // Adiciona o ponto decimal para representar os centavos
-    valor = (valor / 100).toFixed(2);
+const maskCurrency = (valor, locale = 'pt-BR', currency = 'BRL') => {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency
+  }).format(valor)
+}
 
-    // Adiciona ponto como separador de milhar
-    valor = valor.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 
-    // Atualiza o valor do input
-    input.value = 'R$ ' + valor;
-  }
+
 </script>
 

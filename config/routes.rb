@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   get '/user/edit/:id', to: "user#edit_user", as: 'edit_user'
   post '/user/edit/:id', to: "user#update_user", as: 'update_user'
   get '/user/profile/:id', to: "wallet#profile_view",  as: 'profile_user'
+  post '/user/wallet/transaction/:userid', to: "wallet#make_transaction", as: 'credit_transaction' 
 end
