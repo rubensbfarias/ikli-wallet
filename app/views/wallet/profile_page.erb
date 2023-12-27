@@ -1,0 +1,166 @@
+<style>
+    .shadow-card {
+        box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+        border-radius: 0.25rem
+    }
+
+    .font-card-wallet{
+        font-size: 1.25em;
+    }
+
+    .font-bold  {
+        font-weight: bold !important;
+    }
+
+    .font-wallet-balance{
+        font-size: 1.28em
+    }
+
+    .font-transactions {
+        font-size: 1.3em;
+        font-weight: bold;
+    }
+
+</style>
+<div class="container-fluid mt-4">
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card card-primary card-outline">
+                <div class="card-body box-profile">
+                    <div class="text-center">
+                        <img class="profile-user-img img-fluid img-circle" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="User profile picture" width="222">
+                    </div>
+                    <h3 class="profile-username text-center">Rubens Farias</h3>
+                    <p class="text-muted text-center">Software Engineer</p>
+                    <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                            <b>E-mail</b> <a class="float-right">1,322</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Criado em</b> <a class="float-right">543</a>
+                        </li>
+                    </ul>
+                    <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                   <i class="fa fa-wallet"></i>&nbsp; Carteira
+                </div>
+                <div class="card-body">
+                   <div class="container">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-3 d-flex flex-column ">
+                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#credit-modal">
+                                    Creditar
+                                </button>
+                                &nbsp;
+                                 <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#debit-modal">
+                                    Debitar
+                                </button>
+                            </div>
+                            <div class="col-4 bg-light shadow-card text-center d-flex align-items-center justify-content-center flex-column">
+                                <span class="text-center text-muted font-card-wallet ">Saldo</span>
+                                <span class="font-bold font-wallet-balance">R$ 5.325,00</span>
+                            </div>
+                             <div class="col-4 bg-light shadow-card text-center ms-4 d-flex align-items-center justify-content-center flex-column">
+                                <span class="text-center text-muted font-card-wallet ">Transações do Mês</span>
+                                <span class="font-bold font-wallet-balance">R$ 5.325,00</span>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <span class="font-transactions text-center">Transações Mensais</span>
+                            <div class="col-12">
+                                <table class="table table-sm">
+                                    <caption>Transações Mensais</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Valor
+                                            </th>
+                                            <th>
+                                                Tipo
+                                            </th>
+                                            <th>
+                                                Data
+                                            </th>           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>R$ 210,00</td>
+                                            <td>Debíto</td>
+                                            <td>20/12/2034</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="credit-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Creditar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                     <div class="mb-3">
+                        <label for="valor-credito" class="form-label">Valor</label>
+                        <input type="text" oninput="formatarValorMonetario(this) class="form-control" id="valor-credito">
+                    </div>
+                
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary">Salvar</button>
+            </div>
+            </form>
+            </div>
+        </div>
+    </div>
+        <div class="modal fade" id="debit-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Debitar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary">Salvar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function formatarValorMonetario(input) {
+    // Remove caracteres não numéricos
+    let valor = input.value.replace(/\D/g, '');
+
+    // Adiciona o ponto decimal para representar os centavos
+    valor = (valor / 100).toFixed(2);
+
+    // Adiciona ponto como separador de milhar
+    valor = valor.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+
+    // Atualiza o valor do input
+    input.value = 'R$ ' + valor;
+  }
+</script>
+
