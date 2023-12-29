@@ -11,15 +11,14 @@ WORKDIR /rails
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
-
+    BUNDLE_WITHOUT="development" 
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
-
-# Install packages needed to build gems
+ # Install packages needed to build gems, including libpq-dev and Node.js
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libvips pkg-config
+    apt-get install --no-install-recommends -y build-essential git libvips pkg-config libpq-dev nodejs
+
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -41,6 +40,9 @@ RUN chmod +x bin/* && \
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
+# Install pg gem
+RUN bundle config build.pg --with-pg-config=/usr/pgsql-13/bin/pg_config && \
+    bundle install
 
 # Final stage for app image
 FROM base
@@ -49,6 +51,9 @@ FROM base
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libsqlite3-0 libvips && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+
+
 
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle

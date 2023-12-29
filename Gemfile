@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 ruby "3.1.3"
 
+gem 'jwt'
+
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'sassc-rails', '>= 2.1.0'

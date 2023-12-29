@@ -195,7 +195,7 @@
                     <div class="card-header d-flex">
                         <h5>Usuários do Sistema</h5>
                         &nbsp;&nbsp;
-                        <a href="<%= user_path %>" class="btn btn-sm btn-success" target="_blank">+</a>
+                        <a href="<%= user_path %>" class="btn btn-sm btn-success" target="_blank">Criar Usuário</a>
                     </div>
                     <div class="card-body">
                            <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
@@ -203,8 +203,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nome</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="action text-right">Ação</th>
+                                        <th class="">Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -217,7 +216,7 @@
                                             <div class="candidate-list-details">
                                                 <div class="candidate-list-info">
                                                     <div class="candidate-list-title">
-                                                        <h5 class="mb-0"><a href="#"><%= usuario.name %></a></h5>
+                                                        <h5 class="mb-0"><a href="<%=profile_user_path(id: usuario.id)%>"><%= usuario.name %></a></h5>
                                                     </div>
                                                     <div class="candidate-list-option">
                                                         <ul class="list-unstyled">
@@ -228,13 +227,13 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="candidate-list-favourite-time text-center">
-                                            <a class="candidate-list-favourite order-2 text-danger" href="#"><i class="fas fa-heart"></i></a>
-                                            <span class="candidate-list-time order-1">Shortlisted</span>
-                                        </td>
                                         <td>
-                                            <ul class="list-unstyled mb-0 d-flex justify-content-end">
-                                                <li><a href="#" class="text-primary" data-toggle="tooltip" title data-original-title="view"><i class="far fa-eye"></i></a></li>
+                                            <ul class="list-unstyled mb-0 d-flex">
+                                                <li>
+                                                    <a href="<%=profile_user_path(id: usuario.id)%>" target="_blank" class="text-primary" data-toggle="tooltip" title data-original-title="view">
+                                                        <i class="far fa-eye"></i>
+                                                    </a>
+                                                </li>
                                                 <li>
                                                     <a href="<%= edit_user_path(id: usuario.id) %>" class="text-info" data-toggle="tooltip" title data-original-title="Edit">
                                                         <i class="fas fa-pencil-alt"></i>
@@ -251,17 +250,6 @@
                                     <% end %>
                                 </tbody>
                             </table>
-                            <div class="text-center mt-3 mt-sm-3">
-                                <ul class="pagination justify-content-center mb-0">
-                                    <li class="page-item disabled"> <span class="page-link">Prev</span> </li>
-                                    <li class="page-item active" aria-current="page"><span class="page-link">1 </span> <span class="sr-only">(current)</span></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">...</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">25</a></li>
-                                    <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
-                                </ul>
-                            </div>
                             </div>
                     </div>
                 </div>

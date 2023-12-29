@@ -32,7 +32,7 @@
                         <img class="profile-user-img img-fluid img-circle" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="User profile picture" width="222">
                     </div>
                     <h3 class="profile-username text-center"><%= @user.name %></h3>
-                    <p class="text-muted text-center">Software Engineer</p>
+                    <p class="text-muted text-center">Desenvolvedor Ruby</p>
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
                             <b>E-mail</b> <span class="float-right"><%= @user.email %></span>
@@ -41,7 +41,7 @@
                             <b>Criado em</b> <span class="float-right"><%= @user.created_at.strftime("%d/%m/%Y") %></span>
                         </li>
                     </ul>
-                    <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                    <a href="<%=users_path()%>" class="btn btn-primary btn-block"><b>Voltar</b></a>
                 </div>
             </div>
         </div>
@@ -95,7 +95,7 @@
                                             <tr>
                                                 <td><%= number_to_currency(transaction.amount, unit: "R$", separator: ",", delimiter: ".", format: "%u %n") %></td>
                                                 <td><%= transaction.type_transaction %></td>
-                                                <td><%= transaction.date.strftime("%d/%m/%Y") %></td>
+                                                <td><%= transaction.date.strftime("%d/%m/%Y %H:%M:%S") %></td>
                                             </tr>
                                         <% end %>
                                     </tbody>

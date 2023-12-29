@@ -28,15 +28,15 @@ class WalletController < ApplicationController
         
         if user
             wallet = Wallet.where(idusers: user.id).first
-            date = Date.today
-            created_at = date.strftime('%Y-%m-%d')
+            datetime = DateTime.now
+            #created_at = date.strftime('%Y-%m-%d')
             
             if type == "credit"
                 amount = params.require(:valor_creditar)
                 amount_formated = self.format_amount(amount)
                 # register transaction
                 transaction = Transaction.new(
-                    date: created_at,
+                    date: datetime,
                     type_transaction: "credito",
                     amount: amount_formated,
                     idwallet: wallet.id
@@ -56,14 +56,14 @@ class WalletController < ApplicationController
                 # register transaction
                 
                 new_balance = wallet.balance - amount_formated
-                if new_balance > 0
+                if new_balance >= 0
                     wallet = Wallet.find(wallet.id)
                     wallet.update(
                         balance: new_balance
                     )
 
                     transaction = Transaction.new(
-                        date: created_at,
+                        date: datetime,
                         type_transaction: "debito",
                         amount: amount_formated.to_d,
                         idwallet: wallet.id

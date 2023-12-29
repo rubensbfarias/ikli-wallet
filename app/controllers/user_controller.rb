@@ -21,10 +21,12 @@ class UserController < ApplicationController
 
             if user.save
                if !Wallet.where(idusers: user.id).exists?
-                    Wallet.new(
+                    wallet = Wallet.new(
                         idusers: user.id,
                         balance: 0
                     )
+
+                    wallet.save
                end
 
                flash[:success] = "Usuário #{name} criado com sucesso!"
